@@ -11,11 +11,60 @@
 
   <body>
   <div id="container"></div>
+
+
   <script type="text/babel">
+
+  //The div element can have as many children elements as it wants you cannot put
+  //adjacent elements, such as multiple h1 lines outside of a parent element.-->
+  //  	var destination = document.querySelector("#container");
+  //	ReactDOM.render(
+  //		<div>
+  //		<h1>Batman</h1>
+  //		<h1>Superman</h1>
+  //		</div>,
+  //		destination
+  //		);
+
+
+  //Below is a React component: 
+  //React components are reusable chunks of JS that output(via JSX)
+  //HTML elements.
+  //Components can have children.
+  //to add properties to our component we use curly braces {} with a word 
+  ///this.props.propertyname
+
+  //	var HelloWorld = React.createClass({
+  //		render: function (){
+  //			return (
+  //				<p>Hello {this.props.greetTarget}!</p>
+  //			);
+  //		}
+  //	});
+
+  //In JSX we use for calling our HelloWorld component like a tag: <HelloWorld/>
+  //to change the porpery of the component all you have to do is add the 
+  //property with the component call and add a value of what you want to pass.
+  //	<HelloWorld greetTarget = "Ken"/>
+  //	<HelloWorld greetTarget = "Kuts"/>
+  //You can have as many properties as you want.
+
+   	var Buttonify = React.createClass({
+  		render: function (){
+  			return (
+  				<button type={this.props.behavior}>{this.props.children}</button>
+  			);
+  		}
+  	});
+
+  	var destination = document.querySelector("#container");
   	ReactDOM.render(
-  		<h1>Hello World! This is an introduction to ReactJS</h1>,
-  		document.querySelector("#container")
+  		<div>
+		<Buttonify behavior="Submit">Let's Do this</Buttonify>
+		</div>,
+  		destination
   		);
+
   </script>
   </body>
 </html>
