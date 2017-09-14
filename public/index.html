@@ -49,18 +49,23 @@
   //	<HelloWorld greetTarget = "Kuts"/>
   //You can have as many properties as you want.
 
+  //This is an example of a property with a child.
+  //The ClassName attribute is a class for HTML
+
    	var Buttonify = React.createClass({
   		render: function (){
   			return (
-  				<button type={this.props.behavior}>{this.props.children}</button>
+  				<button className={this.props.customize} type={this.props.behavior}>{this.props.children}</button>
   			);
   		}
   	});
 
+   	//When putting componenets with children to the ReactDOM remember to put the 
+   	//component inside an element.
   	var destination = document.querySelector("#container");
   	ReactDOM.render(
   		<div>
-		<Buttonify behavior="Submit">Let's Do this</Buttonify>
+		<Buttonify customize="button" behavior="Submit">OK</Buttonify>
 		</div>,
   		destination
   		);
