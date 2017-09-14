@@ -12,6 +12,8 @@
   <body>
   <div id="container"></div>
 
+  <div id="container2"></div>
+
 
   <script type="text/babel">
 
@@ -50,7 +52,7 @@
   //You can have as many properties as you want.
 
   //This is an example of a property with a child.
-  //The ClassName attribute is a class for HTML
+  //The ClassName attribute is the class attribute for components
 
    	var Buttonify = React.createClass({
   		render: function (){
@@ -66,6 +68,59 @@
   	ReactDOM.render(
   		<div>
 		<Buttonify customize="button" behavior="Submit">OK</Buttonify>
+		</div>,
+  		destination
+  		);
+
+
+
+  	//You can edit CSS properties as JS it is simple
+  	//One word CSS properties remain unchanged
+  	//Two word CSS properties turn into camelCase
+  	// i.e: bacmground-color = backgroundColor, family-font = familyFont
+  	var Letter = React.createClass({
+  		render: function (){
+
+  	//This is creating a variable which contains CSS properties which 
+  	//you can put in your style attribute. 
+
+  	//We don't add the px for our numeral sizes because we need to do a string
+  	//concatenation on the number to add the px.
+  	//We also don't specify the px at all beacuse this is because at runtime React
+  	//will add the px suffix automatically. 
+  	//We can also add properties to our JS CSS property i.e: bgcolor.
+  			var letterStyle = {
+  				padding: 10,
+  				margin: 10,
+  				backgroundColor: this.props.bgcolor,
+  				color: "#333",
+  				display: "inline-block",
+  				fontFamily: "monospace",
+  				fontSize: 32,
+  				textAlign: "center"
+  			};
+
+
+  			return (
+  				<div style={letterStyle}>
+  				{this.props.children}
+  				</div>
+  			);
+  		}
+  	});
+
+  	var destination = document.querySelector("#container2");
+  	ReactDOM.render(
+  		<div>
+		<Letter bgcolor="skyblue">K</Letter>
+		<Letter bgcolor="orange">U</Letter>
+		<Letter bgcolor="yellow">T</Letter>
+		<Letter bgcolor="green">S</Letter>
+		<Letter bgcolor="blue">C</Letter>
+		<Letter bgcolor="red">H</Letter>
+		<Letter bgcolor="violet">E</Letter>
+		<Letter bgcolor="purple">R</Letter>
+		<Letter bgcolor="#FF00FF">A</Letter>
 		</div>,
   		destination
   		);

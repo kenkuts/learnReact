@@ -1,6 +1,6 @@
-#container {
-
-	background-color: white;
+#container2 {
+	padding: 50px;
+	background-color: FFF;
 }
 
 #container h1 {
@@ -21,3 +21,14 @@
     margin: 4px 2px;
     cursor: pointer;
 }
+
+.letter {
+	padding: 10px;
+	margin: 10px;
+	background-color: #ffde00;
+	color: #333;
+	display: inline-block;
+	font-family: monospace;
+	font-size: 32px;
+	text-align: center;
+}	
