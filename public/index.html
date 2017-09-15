@@ -14,11 +14,13 @@
 
   <div id="container2"></div>
 
+  <div id="container3"></div>
+
 
   <script type="text/babel">
 
   //The div element can have as many children elements as it wants you cannot put
-  //adjacent elements, such as multiple h1 lines outside of a parent element.-->
+  //adjacent elements, such as multiple h1 lines outside of a parent element.
   //  	var destination = document.querySelector("#container");
   //	ReactDOM.render(
   //		<div>
@@ -54,23 +56,23 @@
   //This is an example of a property with a child.
   //The ClassName attribute is the class attribute for components
 
-   	var Buttonify = React.createClass({
-  		render: function (){
-  			return (
-  				<button className={this.props.customize} type={this.props.behavior}>{this.props.children}</button>
-  			);
-  		}
-  	});
+  // 	var Buttonify = React.createClass({
+  //		render: function (){
+  //			return (
+  //				<button className={this.props.customize} type={this.props.behavior}>{this.props.children}</button>
+  //			);
+  //		}
+  //	});
 
    	//When putting componenets with children to the ReactDOM remember to put the 
    	//component inside an element.
-  	var destination = document.querySelector("#container");
-  	ReactDOM.render(
-  		<div>
-		<Buttonify customize="button" behavior="Submit">OK</Buttonify>
-		</div>,
-  		destination
-  		);
+  //	var destination = document.querySelector("#container");
+  //	ReactDOM.render(
+  //		<div>
+  //	<Buttonify customize="button" behavior="Submit">OK</Buttonify>
+  //		</div>,
+  //		destination
+  //		);
 
 
 
@@ -78,8 +80,8 @@
   	//One word CSS properties remain unchanged
   	//Two word CSS properties turn into camelCase
   	// i.e: bacmground-color = backgroundColor, family-font = familyFont
-  	var Letter = React.createClass({
-  		render: function (){
+  	//var Letter = React.createClass({
+  	//	render: function (){
 
   	//This is creating a variable which contains CSS properties which 
   	//you can put in your style attribute. 
@@ -89,42 +91,168 @@
   	//We also don't specify the px at all beacuse this is because at runtime React
   	//will add the px suffix automatically. 
   	//We can also add properties to our JS CSS property i.e: bgcolor.
-  			var letterStyle = {
-  				padding: 10,
-  				margin: 10,
-  				backgroundColor: this.props.bgcolor,
-  				color: "#333",
-  				display: "inline-block",
-  				fontFamily: "monospace",
-  				fontSize: 32,
-  				textAlign: "center"
-  			};
+
+  	//		var letterStyle = {
+  	//			padding: 10,
+  	//			margin: 10,
+  	//			backgroundColor: this.props.bgcolor,
+  	//			color: "#333",
+  	//			display: "inline-block",
+  	//			fontFamily: "monospace",
+  	//			fontSize: 32,
+  	//			textAlign: "center"
+  	//		};
 
 
-  			return (
-  				<div style={letterStyle}>
-  				{this.props.children}
-  				</div>
-  			);
-  		}
-  	});
+  	//		return (
+  	//			<div style={letterStyle}>
+  	//			{this.props.children}
+  	//			</div>
+  	//		);
+  	//	}
+  	//});
 
-  	var destination = document.querySelector("#container2");
-  	ReactDOM.render(
-  		<div>
-		<Letter bgcolor="skyblue">K</Letter>
-		<Letter bgcolor="orange">U</Letter>
-		<Letter bgcolor="yellow">T</Letter>
-		<Letter bgcolor="green">S</Letter>
-		<Letter bgcolor="blue">C</Letter>
-		<Letter bgcolor="red">H</Letter>
-		<Letter bgcolor="violet">E</Letter>
-		<Letter bgcolor="purple">R</Letter>
-		<Letter bgcolor="#FF00FF">A</Letter>
-		</div>,
-  		destination
-  		);
+  	//var destination = document.querySelector("#container2");
+  	//ReactDOM.render(
+  	//	<div>
+	//	<Letter bgcolor="skyblue">K</Letter>
+	//	<Letter bgcolor="orange">U</Letter>
+	//	<Letter bgcolor="yellow">T</Letter>
+	//	<Letter bgcolor="green">S</Letter>
+	//	<Letter bgcolor="blue">C</Letter>
+	//	<Letter bgcolor="red">H</Letter>
+	//	<Letter bgcolor="violet">E</Letter>
+	//	<Letter bgcolor="purple">R</Letter>
+	//	<Letter bgcolor="#FF00FF">A</Letter>
+	//	</div>,
+  	//	destination
+  	//	);
 
+    //The proper way to pass a property value to a child component is to have 
+    //each intermediate parent component pass on the property as well
+    //You implement the value inside of the the parent component and
+    //it gets passed on to the child components.
+    //The parent card component is responsible for passing the property
+    //on to them.
+
+    var Square = React.createClass ({
+        render: function(){
+          var squareStyle = {
+            backgroundColor: this.props.color,
+            height: 150
+          };
+
+          return (
+              <div style={squareStyle}>
+
+              </div>
+            );
+        }
+    });
+
+    var Label = React.createClass ({
+        render: function(){
+          var labelStyle = {
+            fontFamily: "monospace",
+            fontSize: 20,
+            padding: 13,
+            margin: 0,
+            fontWeight: "bold"
+          };
+          return (
+              <p style={labelStyle}>{this.props.color}</p>
+            );
+        }
+    });
+
+    //This is our card component where the label and the color square will be 
+    //inside of. 
+    //REMEMBER!!!!: To declare your CSS var properties outside of the return fucntion
+    //Vendor Prefixes doesn't have to be written in camel case.
+    var Card = React.createClass ({
+        render: function(){
+            var cardStyle = {
+                height: 200,
+                width: 150,
+                padding: 0,
+                backgroundColor: "#FFF",
+                WebkitFilter: "drop-shadow(0px 0px 5px #666)",
+                filter: "drop-shadow(0px 0px 5px #666)"
+              };
+          return (
+              <div style={cardStyle}>
+              <Square color={this.props.color}/>
+              <Label color={this.props.color}/>
+              </div>
+            );
+        }
+    });
+
+    var destination = document.querySelector("#container2");
+    ReactDOM.render (
+      <div>
+        <Card color="#342353"/>
+      </div>,
+      destination
+      );
+
+
+    //Passing properties to components, especially if they're in a heiarchy
+    //with one parent with multiple children the props must go through each
+    //parent and child until it reaches its desired component. 
+    //A parent component can pass a property but a child component cannot. 
+
+    //For every additional property we need to communicate we are going to add an 
+    //entry for it as part of declaring each component. 
+    //If we decide to rename our property we must also rename the instance of
+    //the property as well.
+    //If we remove the property we must remove the property from every component
+    //that it relied on. 
+
+    //This is a prime example of how the components property get passed. The parent component
+    //is the Army and second in line is the Unit and the last component is Uniform.
+    //Uniform relies on Unit and the Unit relies on Army
+    //
+    var Army = React.createClass ({
+        render: function () {
+          return (
+            <div>
+              <p>{this.props.insignia}</p>
+              <p>{this.props.color}</p>
+              <p>{this.props.country}</p>
+            </div>
+            );
+          }
+        });
+
+    var Uniform = React.createClass ({
+        render: function () {
+          return (
+            <div>
+              <Unit {...this.props}/>
+            </div>
+            );
+          }
+        });
+
+    var Unit = React.createClass ({
+        render: function () {
+          return (
+            <div>
+              <Army {...this.props}/>
+            </div>
+            );
+          }
+        });
+
+
+    var placement = document.querySelector("#container3");
+    ReactDOM.render (
+      <div>
+      <Uniform insignia="US ARMY" color="OCP" country="USA"/>
+      </div>,
+      placement
+      );
   </script>
   </body>
 </html>
