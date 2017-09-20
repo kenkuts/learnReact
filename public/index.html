@@ -16,6 +16,8 @@
 
   <div id="container3"></div>
 
+  <div id="container4"></div>
+
 
   <script type="text/babel">
 
@@ -224,6 +226,17 @@
             );
           }
         });
+    /*In this example we use the spread operator to pass an array of our values to
+    our component. ...this.props poses the same values as insignia, color and country*/
+    var Unit = React.createClass ({
+        render: function () {
+          return (
+            <div>
+              <Army {...this.props}/>
+            </div>
+            );
+          }
+        });
 
     var Uniform = React.createClass ({
         render: function () {
@@ -235,24 +248,138 @@
           }
         });
 
-    var Unit = React.createClass ({
-        render: function () {
-          return (
-            <div>
-              <Army {...this.props}/>
-            </div>
-            );
-          }
-        });
-
-
+    /*This is an example of JSX: 
+      Our component has been declared inside of the variable uniformComponent and
+      it has been implemented in our DOM render method by encapsulating them in 
+      curly braces.
+    */
+    var uniformComponent = <Uniform insignia="US ARMY" color="OCP" country="USA"/>;
     var placement = document.querySelector("#container3");
     ReactDOM.render (
       <div>
-      <Uniform insignia="US ARMY" color="OCP" country="USA"/>
+      {uniformComponent}
       </div>,
       placement
       );
+
+
+    /*Components with a state'
+      A component with a state goes beyond properties and it isa way for
+      us to store data that can be changed. 
+
+      We can add a state to our compnents using React API:
+
+      getInitialState - Runs before our component gets mounted and allows us to
+                        modify our components state object.
+                      - This method also runs before our component even gets 
+                        rendered.
+                      - We are telling react to return an object containing our
+                        initial property.
+
+      componentDidMount - This gets called after our component gets mounted or
+                        rendered. 
+
+      setState - This method allows you to update the value of the state object.
+      */
+      var sec = 0;
+
+      var SecondCounter = React.createClass({
+
+          //this is our getInitialState method. It initializes the value in our 
+          //component. 
+          getInitialState: function() {
+            return {
+              sec: 0
+            };
+          },
+          //this is our timerTick fucntion where we add a increment of one to 
+          // display it as a second everytime setInterval funct gets called. 
+          //this function calls setState to update our component
+
+          timerTick: function() {
+            this.setState({
+              sec: this.state.sec + 1
+            });
+          },
+
+          //This function calls our setInterval function after our component
+          //renders
+          componentDidMount: function() {
+            setInterval(this.timerTick, 1000);
+          },
+
+          //this.state displays the value of our state property
+          render: function() {
+
+            var myCompStyle = {
+              color: "#66FFFF",
+              fontSize: 50
+            };
+
+            var count = this.state.sec.toLocaleString();
+            return (
+                  <h1 style={myCompStyle}>{count}</h1>
+              );
+          }
+          /*Our component updates because whenever we call setState and update something
+            in the state object, our component's render method gets automatically called.*/
+        });
+
+      var SecondCounterDisplay = React.createClass({
+          render: function() {  
+              var commonStyle = {
+                margin: 0,
+                padding: 0
+              };
+
+              /*When you are creating a CSS object variable you alsways create it inside
+              the render function.*/
+              var divStyle2 = {
+                    width: 250,
+                    textAlign: "center",
+                    backgroundColor: "black",
+                    padding: 40,
+                    fontFamily: "sans-serif",
+                    color: "#999",
+                    borderRadius: 10
+              }; //everytime you create something with curly braces inside the 
+                 // render function always close it with ;
+
+              var textStyles = {
+                emphasis: {
+                  fontSize: 38,
+                  ...commonStyle
+                },
+                smallEmphasis: {
+                  ...commonStyle
+                },
+                small: {
+                  fontSize: 17,
+                  opacity: 0.5,
+                  ...commonStyle
+                }
+              };
+
+
+              //Inside the return function is where you mount the component. 
+              return (
+                <div style={divStyle2}>
+                  <SecondCounter/>
+                  <h2 style={textStyles.emphasis}>This Counts Every Second</h2>
+                  <h2 style={textStyles.smallEmphasis}>EVERY SECOND!</h2>
+                  <p style={textStyles.small}>since you loaded this page anyways</p>
+                </div>
+                );
+          }
+      });
+
+      var establishment = document.querySelector("#container4");
+      ReactDOM.render(
+            <div>
+              <SecondCounterDisplay/>
+            </div>,
+            establishment
+        );
   </script>
   </body>
 </html>
