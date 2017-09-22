@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <title>React Tutorial</title>
+    <script src="https://unpkg.com/react@15.3.2/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@15.3.2/dist/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  	<link rel="stylesheet" type="text/css" href="../src/css/mystyle.css">
+  </head>
+
+  <body>
+  	<div id="container8"></div>
+
+  	<script type="text/babel">
+	
+	  /*
+  	  Remember you cannot directly listen to events on components. The event listener
+      has to be within an element. Below is an example of what you should not do.
+      <PlusButton onClick={this.increase}/>
+      The event listener won't work because it has to be inside an element. And this 
+      is because components are wrappers for DOM elements. 
+      */
+
+      /*Although you can never do that in you can create an event listener inside a component as a prop and then when you mount your component inside the render method or in another component you can initialize that prop as an event handler*/
+
+  	var CounterButton = React.createClass({
+		render: function() {
+		    var buttonStyle = {
+				fontSize: "1em",
+				width: 60,
+				height: 40,
+				fontFamily: "times",
+				color: "teal",
+				fontWeight: "bold",
+				lineHeight: "3px"
+			};
+
+			return(
+				<button onClick={this.props.eventHandler} style={buttonStyle}>X</button>
+			);
+		}
+  	});
+
+  	var Counter = React.createClass({
+		render: function() {
+
+			var textStyle = {
+				color: "red",
+				fontSize: 72,
+				fontFamily: "times",
+				fontWeight: "bold"
+			};
+
+			return (
+			<div style={textStyle}>
+				{this.props.display}
+			</div>
+			);
+		}
+  	});
+
+  	var CounterContainer = React.createClass({
+		getInitialState: function() {
+			return {
+			   count: 0
+			};
+		},
+		
+		//remember to put an argument if you are creating an event handler function
+		//the letter e is an event property.
+
+		increase: function(e) {
+
+			var currentCount = this.state.count;
+
+			if (e.shiftKey) {
+				currentCount += 10;
+			}else{
+				currentCount += 1;
+			}
+
+			this.setState({
+				count: currentCount
+			});
+		},
+
+	render: function() {
+		var containerStyle = {
+			backgroundColor: "black",
+			width: 500,
+			height: 100,
+			borderRadius: 20,
+			padding: 50,
+			textAlign: "center"
+		};
+
+
+		
+		return (
+			<div style={containerStyle}>
+				<Counter display={this.state.count}/>
+				<CounterButton eventHandler={this.increase}/>
+			</div>
+		);
+	  }
+  	});
+	
+
+	var container = document.querySelector("#container8");
+	ReactDOM.render(
+		<div>
+			<CounterContainer/>
+		</div>,
+		container
+	);
+
+  	</script>
+  </body>
+</html>

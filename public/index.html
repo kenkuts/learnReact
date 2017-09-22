@@ -18,6 +18,11 @@
 
   <div id="container4"></div>
 
+  <div id="container5"></div>
+
+  <div id="container6"></div>
+
+  <div id="container7"></div>
 
   <script type="text/babel">
 
@@ -334,31 +339,31 @@
 
               /*When you are creating a CSS object variable you alsways create it inside
               the render function.*/
-              var divStyle2 = {
-                    width: 250,
-                    textAlign: "center",
-                    backgroundColor: "black",
-                    padding: 40,
-                    fontFamily: "sans-serif",
-                    color: "#999",
-                    borderRadius: 10
-              }; //everytime you create something with curly braces inside the 
+      var divStyle2 = {
+          width: 250,
+          textAlign: "center",
+          backgroundColor: "black",
+          padding: 40,
+          fontFamily: "sans-serif",
+          color: "#999",
+          borderRadius: 10
+      }; //everytime you create something with curly braces inside the 
                  // render function always close it with ;
 
-              var textStyles = {
-                emphasis: {
-                  fontSize: 38,
-                  ...commonStyle
-                },
-                smallEmphasis: {
-                  ...commonStyle
-                },
-                small: {
-                  fontSize: 17,
-                  opacity: 0.5,
-                  ...commonStyle
-                }
-              };
+      var textStyles = {
+        emphasis: {
+          fontSize: 38,
+          ...commonStyle
+      },
+        smallEmphasis: {
+          ...commonStyle
+      },
+        small: {
+          fontSize: 17,
+          opacity: 0.5,
+         ...commonStyle
+         }
+      };
 
 
               //Inside the return function is where you mount the component. 
@@ -380,6 +385,168 @@
             </div>,
             establishment
         );
+
+      var Circle = React.createClass({
+
+        render: function() {
+
+          var circleStyle = {
+            padding: 10,
+            margin: 20,
+            display: "inline-block",
+            backgroundColor: this.props.bgColor,
+            borderRadius: "50%",
+            width: 100,
+            height: 100
+          };
+
+          return (
+            <div style={circleStyle}>
+
+            </div>
+          );            
+        }
+      });
+
+      /*The JSX basically lets us intantiate our component in a variable so it is not limited to
+      the render method. Because of this we can do a lot of crazy things with our 
+      component, such as putting it in a function that creates random circles.*/
+      function showCircle() {
+        var colors =["violet","blue","teal","red","00A580","orange","#7608AA",
+                      "#98ED00","black"];
+        var rand = Math.floor(Math.random() * colors.length);
+        return <Circle key={x + color} bgColor={colors[rand]}/>
+      };
+
+
+      /*This is a for loop for creating the same number of circles with the same 
+        number of different colors from the colors array. We do this by rendering
+        each component with a different color that gets pushed in our empty array*/
+      var colors = ["violet","blue","teal","red","#00A580","orange","#7608AA",
+                      "#98ED00","black"];
+      var renderData = [];
+
+      //We need to create element identifiers to identify our dynamic components
+      //this is where the key prop come to play.
+      //Our special identifer for each of these dynamic components are the index
+      //number plus the color connected as a string array. 
+      //This ensures that our components have unique key property identifiers. 
+      for(var x = 0; x < colors.length; x++) {
+        var color = colors[x];
+        renderData.push(<Circle key={x + color} bgColor={color}/>);
+      }
+
+      var circleContainers = document.querySelector("#container5");
+      ReactDOM.render(
+            <div>
+              {renderData}
+            </div>,
+            circleContainers
+        );
+
+
+
+      //This is an event listener exercise. 
+      var Counter2 = React.createClass({
+          render: function() {
+            var textStyles = {
+                fontSize: 72,
+                fontFamily: "sans-serif",
+                color: "#333",
+                fontWeight: "bold"
+            };
+
+            return (
+              //you're creating an empty property within the Counter2 component which is
+              //empty. This will be initialized with the count state variable when you
+              //render it. 
+              <div style={textStyles}>
+                {this.props.display}
+              </div>
+            );
+          }
+      });
+
+
+      //You specify both the event you are listening and the event handler that will get
+      //called in the component where they are going to take place.
+      var CounterParent = React.createClass({
+          //We know this component is going to change because it has an initial state
+          //method. 
+          getInitialState: function() {
+            return {
+              count: 0
+            };
+          },
+
+          //This is our event handler function. This is basically what gets
+          //called everytime our button gets clicked. 
+          /*We have modified this component and added a SyntheticEvent
+            A SyntheticEvent is a cross-browser wrapper around the browsers native
+            event. This is Reacts own way on dealing with events. */
+          increase: function(e) {
+            var currentCount = this.state.count;
+
+            if (e.altKey) {
+                currentCount += 10;
+            } else {
+                currentCount += 1;
+            }
+            //You will never put a semicolon in whatevers inside this block of code.
+            this.setState({
+              count: currentCount
+            });
+          },
+
+          render: function() {
+            //remember a CSS objet property always ends a block of code with a 
+            //semicolon.
+            var backgroundStyle = {
+                padding: 50,
+                backgroundColor: "#FFC53A",
+                width: 250,
+                height: 100,
+                borderRadius: 10,
+                textAlign: "center"
+            };
+
+            var buttonStyle = {
+              fontSize: "lem",
+              width: 30,
+              height: 30,
+              fontFamily: "sans-serif",
+              color: "#333",
+              fontWeight: "bold",
+              lineHeight: "3px"
+            };
+
+            return (
+              //This is where you add the count variable into your Counter2 display property.
+
+              //Event Handling: You specify both the event you are listening for and the event
+              //handler that will get called, all inside your markup. 
+              <div style={backgroundStyle}>
+                <Counter2 display={this.state.count}/>
+                <button onClick={this.increase} style={buttonStyle}>+</button>
+              </div>
+            );
+          }
+      });
+      /*
+      Remember you cannot directly listen to events on components. The event listener
+      has to be within an element. Below is an example of what you should not do.
+      <PlusButton onClick={this.increase}/> - this Component is basically a button.
+      The event listener won't work because it has to be inside an element. And this 
+      is because components are wrappers for DOM elements. 
+      */
+      var listener = document.querySelector("#container6");
+      ReactDOM.render(
+        <div>
+          <CounterParent/>
+        </div>,
+        listener
+        );
+
   </script>
   </body>
 </html>
