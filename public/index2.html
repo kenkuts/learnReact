@@ -11,6 +11,8 @@
 
   <body>
   	<div id="container8"></div>
+  	<div id="container9"></div>
+  	<div id="container10"></div>
 
   	<script type="text/babel">
 	
@@ -71,6 +73,7 @@
 		//the letter e is an event property.
 
 		increase: function(e) {
+			console.log(this);
 
 			var currentCount = this.state.count;
 
@@ -113,6 +116,108 @@
 			<CounterContainer/>
 		</div>,
 		container
+	);
+	
+
+	var Count = React.createClass({
+		render: function() {
+			var counterStyle = {
+				fontSize: 20,
+				fontFamily: "times",
+				color: "pink"
+			};
+
+			return(
+				<div style={counterStyle}>{this.props.display}</div>
+			);
+		}
+	});
+
+
+	var ButtonButton = React.createClass({
+		render: function() {
+			var buttonStyle = {
+				fontSize: "1em",
+				width: 60,
+				height: 40,
+				fontFamily: "times",
+				color: "teal",
+				fontWeight: "bold",
+				lineHeight: "3px",
+				align: "center"
+			};
+
+			return(
+				<button style={buttonStyle} onClick={this.props.eventHandle}>Press</button>
+		   );
+		}
+	});
+
+	var ButtonSquare = React.createClass({
+		getInitialState: function() {
+			return {
+				counter: 0
+			};
+		},
+		
+		randomNumber: function() {
+			this.setState({
+				counter: Math.floor(Math.random() * 10)
+			});
+		},
+
+
+		render: function() {
+			var linkStyle = {
+				width: 50,
+				height: 200,
+				backgroundColor: "black",
+				textAlign: "center",
+				padding: 50
+			};
+
+
+			return (
+				<div style={linkStyle}>
+					<Count display={this.state.counter}/>
+					<ButtonButton eventHandle={this.randomNumber}/>
+				</div>
+			);
+		}
+	});
+
+	var frameContainer = document.querySelector("#container9");
+	ReactDOM.render(
+		<div>
+		<ButtonSquare/>
+		</div>,
+		frameContainer
+	);
+	
+
+	var ButtonComponent = React.createClase({
+		render: function() {
+			
+			var styleBut = {
+				backgroundColor: "red",
+				width: 100,
+				height: 100
+			};	
+
+			return(
+				<button style={styleBut} onClick={this.prop.eventHandling}>This
+				</button>
+			);
+		}
+	});
+
+	
+	var compContainer = document.querySelector("container10");
+	ReactDOM.render(
+		<div>
+			<ButtonComponent/>
+		</div>,
+		compContainer
 	);
 
   	</script>
